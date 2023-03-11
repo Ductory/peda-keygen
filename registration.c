@@ -19,7 +19,8 @@ char *TrimUpper(const char *str);
 /* return a new string, which is trimmed and is converted to uppercase. */
 
 /* global variable declaration */
-unsigned success[1];
+unsigned char success[5];
+short maxCopies;
 
 unsigned map(char c)
 {
@@ -31,7 +32,7 @@ unsigned map(char c)
 	return 0;
 }
 
-void func1(const char *szCode, unsigned char *spec)
+void code2spec(const char *szCode, unsigned char *spec)
 {
 	unsigned a = 0x50, b = 0, c = 0, i = 0, j = 0x50;
 	do
@@ -51,7 +52,7 @@ void func1(const char *szCode, unsigned char *spec)
 	} while (a > 0);
 }
 
-bool func2(const char *szUpperName, unsigned char *spec)
+bool isAvailable(const char *szUpperName, unsigned char *spec)
 {
 	static const char table[] = {0x5D, 0x22, 0x4F, 0x4E, 0xFC};
 	static const char table2[] = {2, 3, 5, 8, 9};
@@ -63,18 +64,19 @@ bool func2(const char *szUpperName, unsigned char *spec)
 		char *p = (char*)szUpperName;
 		for (unsigned j = len; j; --j)
 		{
-			int d4 = ((unsigned)p++ + i - (unsigned)szUpperName) % 5;
+			int d4 = (p++ - szUpperName + i) % 5;
 			v += (t[d4] + i * 0x11) | p[-1];
 		}
 		if (spec[table2[i]] != v)
 			return false;
 	}
 	/* register successfully */
-	success[0] = *(unsigned*)t;
-	success[1] = t[4];
+	*(unsigned*)success = *(unsigned*)t;
+	success[4] = t[4];
 	return true;
 }
 
+/* main function */
 bool Register(const char *szName, const char *szCode)
 {
 	char *szTUName = TrimUpper(szName);
@@ -83,10 +85,17 @@ bool Register(const char *szName, const char *szCode)
 	bool r = false;
 	if (strlen(szTUCode) == 16)
 	{
-		func1(szCode, spec);
-		r = func2(szTUName, spec);
+		code2spec(szCode, spec);
+		r = isAvailable(szTUName, spec);
 	}
 	free(szTUCode);
 	free(szTUName);
 	return r;
+}
+
+void Sub(void)
+{
+	/* ... */
+	maxCopies = success[0] ^ success[2];
+	/* ... */
 }

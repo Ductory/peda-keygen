@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-__declspec(dllexport) void genSpec(const char *szUpperName, unsigned char *spec)
+__declspec(dllexport) void genSpec(const char *szUpperName, unsigned char *spec, int maxCopies)
 {
 	static const char table[] = {0x5D, 0x22, 0x4F, 0x4E, 0xFC};
 	static const char table2[] = {2, 3, 5, 8, 9};
@@ -9,7 +9,7 @@ __declspec(dllexport) void genSpec(const char *szUpperName, unsigned char *spec)
 	int len = strlen(szUpperName);
 	spec[0] = t[0] = rand() % 256;
 	spec[1] = t[1] = rand() % 256;
-	spec[4] = t[2] = rand() % 256;
+	spec[4] = t[2] = maxCopies >= 0 && maxCopies <= 255? maxCopies ^ t[0] : rand() % 256;
 	spec[6] = t[3] = rand() % 256;
 	spec[7] = t[4] = rand() % 256;
 	for (int i = 0; i < 5; ++i)
