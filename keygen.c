@@ -9,7 +9,7 @@
 #include <time.h>
 #define GC_API static
 #else
-#define GC_API
+#define GC_API __stdcall
 #endif
 
 #include <stdlib.h>
