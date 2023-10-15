@@ -10,7 +10,7 @@ This repository gives the verify and gc algorithms of Pedagoguery Software's pro
 gcc -D_COMPILE_CLI keygen.c
 ```
 
-**GUI version: ** 
+**GUI version: **  
 
 To compile GUI version, you should have `Visual Basic 6` environment.  
 
